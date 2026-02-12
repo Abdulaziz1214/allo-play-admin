@@ -1,0 +1,20 @@
+:root {
+  /* Backgrounds */
+  --bg: #0b0b0f;          /* общий фон */
+  --surface: #12121a;     /* карточки/панели */
+  --surface-2: #181825;   /* чуть светлее для блоков внутри */
+
+  /* Borders / lines */
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* Text */
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.60);
+
+  /* Primary (акцент как на макете) */
+  --primary: #e50914;
+  --primary-hover: #ff1a24;
+
+  /* Focus ring */
+  --ring: rgba(229, 9, 20, 0.35);
+}

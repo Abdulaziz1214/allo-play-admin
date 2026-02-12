@@ -7,13 +7,16 @@ import AdminLayout from '../layouts/AdminLayout';
 import DashboardPage from '../pages/Dashboard/DashboardPage';
 import ProtectedRoute from './ProtectedRoute';
 import ForbiddenPage from '../pages/Errors/ForbiddenPage';
+import NotFoundPage from '../pages/Errors/NotFoundPage';
 import PermissionGate from './PermissionGate';
 import MoviesListPage from '../pages/Movies/MoviesListPage';
 import SeriesPage from '../pages/Series/SeriesPage';
-import ReelsPage from '../pages/Reels/ReelsPage';
+import ReelsListPage from '../pages/Reels/ReelsListPage';
 import TVChannelsPage from '../pages/TVChannels/TVChannelsPage';
 import UsersPage from '../pages/Users/UsersPage';
 import CategoriesPage from '../pages/Categories/CategoriesPage';
+import RolesPage from '../pages/Roles/RolesPage';
+import AdminsPage from '../pages/Admins/AdminsPage';
 
 
 
@@ -52,7 +55,7 @@ export const router = createBrowserRouter([
         path: "/reels",
         element: (
           <PermissionGate permission="reels.view">
-            <ReelsPage />
+            <ReelsListPage />
           </PermissionGate>
         ),
       },
@@ -76,9 +79,28 @@ export const router = createBrowserRouter([
         path: "/categories",
         element: <CategoriesPage />,
       },
-
+      {
+        path: "/roles",
+        element: (
+          <PermissionGate permission="roles.view">
+            <RolesPage />
+          </PermissionGate>
+        ),
+      },
+      {
+        path: "/admins",
+        element: (
+          <PermissionGate permission="admins.view">
+            <AdminsPage />
+          </PermissionGate>
+        ),
+      },
 
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 

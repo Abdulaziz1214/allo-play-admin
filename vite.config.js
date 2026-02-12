@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://temirovv.uz",
+        target: "https://api.alloplay.uz",
         changeOrigin: true,
         secure: true,
       },

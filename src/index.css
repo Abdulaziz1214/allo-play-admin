@@ -4,11 +4,44 @@
 @tailwind utilities;
 
 @import "./styles/theme.css";
-/* небольшая база для админки */
+
 html, body {
   height: 100%;
 }
 body {
   background: var(--bg);
   color: var(--text);
+}
+
+/* Dark mode native elements */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Select styling for both themes */
+select {
+  color: var(--text);
+  background-color: var(--surface-2);
+}
+select option {
+  color: var(--text);
+  background-color: var(--surface);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }

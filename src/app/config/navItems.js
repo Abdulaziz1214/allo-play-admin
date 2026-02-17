@@ -1,96 +1,89 @@
 export const navItems = [
   {
-    section: "Overview",
+    sectionKey: "overview",
     items: [
       {
-        label: "Dashboard",
+        labelKey: "dashboard",
         to: "/dashboard",
         permission: null,
       },
     ],
   },
-
-
   {
-    section: "Content",
+    sectionKey: "content",
     items: [
       {
-        label: "Movies",
+        labelKey: "movies",
         to: "/movies",
         permission: "movies.view",
       },
       {
-        label: "Series",
+        labelKey: "series",
         to: "/series",
         permission: "series.view",
       },
       {
-        label: "Reels",
+        labelKey: "reels",
         to: "/reels",
         permission: "reels.view",
       },
       {
-        label: "TV Channels",
+        labelKey: "tvChannels",
         to: "/tv-channels",
         permission: "tv_channels.view",
       },
       {
-        label: "Categories",
+        labelKey: "categories",
         to: "/categories",
-        // permission: "genres.view", // если такого нет — временно уберём, см. ниже
         permission: null,
-
       },
     ],
   },
-
   {
-    section: "Users",
+    sectionKey: "users",
     items: [
       {
-        label: "Users",
+        labelKey: "users",
         to: "/users",
         permission: "users.view",
       },
       {
-        label: "Subscriptions",
+        labelKey: "subscriptions",
         to: "/subscriptions",
         permission: "subscriptions.view",
       },
     ],
   },
-
   {
-    section: "Finance",
+    sectionKey: "finance",
     items: [
       {
-        label: "Payments",
+        labelKey: "payments",
         to: "/payments",
         permission: "payments.view",
       },
     ],
   },
-
   {
-    section: "System",
+    sectionKey: "system",
     items: [
       {
-        label: "Admins",
+        labelKey: "admins",
         to: "/admins",
         permission: "admins.view",
       },
       {
-        label: "Roles",
+        labelKey: "roles",
         to: "/roles",
         permission: "roles.view",
       },
       {
-        label: "Permissions",
+        labelKey: "permissions",
         to: "/permissions",
         permission: "permissions.view",
       },
       {
-        label: "Settings",
+        labelKey: "settings",
         to: "/settings",
         permission: "settings.view",
       },

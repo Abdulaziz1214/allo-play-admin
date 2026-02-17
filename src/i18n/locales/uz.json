@@ -14,6 +14,13 @@
     "permissions": "Huquqlar",
     "settings": "Sozlamalar"
   },
+  "sections": {
+    "overview": "Umumiy",
+    "content": "Kontent",
+    "users": "Foydalanuvchilar",
+    "finance": "Moliya",
+    "system": "Tizim"
+  },
   "common": {
     "search": "Qidirish",
     "filter": "Filtr",
@@ -31,14 +38,29 @@
     "inactive": "Nofaol",
     "id": "ID",
     "back": "Orqaga",
-    "comingSoon": "Tez orada! Bu bo'lim yaqin vaqt ichida mavjud bo'ladi."
+    "comingSoon": "Tez orada! Bu bo'lim yaqin vaqt ichida mavjud bo'ladi.",
+    "title": "Sarlavha",
+    "description": "Tavsif",
+    "name": "Nomi",
+    "year": "Yil",
+    "rating": "Reyting",
+    "duration": "Davomiyligi",
+    "poster": "Poster",
+    "noPoster": "Poster yo'q",
+    "noPreview": "Ko'rib chiqish yo'q",
+    "noLogo": "Logo yo'q",
+    "min": "daq",
+    "contentManagement": "Kontentni boshqarish"
   },
   "auth": {
     "login": "Kirish",
     "logout": "Chiqish",
     "username": "Foydalanuvchi nomi",
     "password": "Parol",
-    "email": "Email"
+    "email": "Email",
+    "loginSubtitle": "Admin paneliga kirish uchun ma'lumotlaringizni kiriting",
+    "usernamePlaceholder": "Foydalanuvchi nomini kiriting",
+    "passwordPlaceholder": "Parolni kiriting"
   },
   "dashboard": {
     "title": "Boshqaruv paneli",
@@ -58,7 +80,13 @@
     "importantNotes": "Muhim eslatmalar",
     "readOnlyNote": "Kinolar, Seriallar va TV Kanallar: Admin CRUD endpoints hozircha API da mavjud emas. Bu sahifalar faqat o'qish uchun ommaviy endpoints orqali ma'lumotlarni ko'rsatadi.",
     "fullCrudNote": "To'liq CRUD mavjud: Reels, Rollar, Adminlar va Kategoriyalar to'liq boshqaruv funksiyalariga ega.",
-    "futureNote": "Kelajakdagi xususiyatlar: Foydalanuvchilarni boshqarish, obunalar, tranzaksiyalar va push bildirishnomalar backend API tayyor bo'lganda qo'shiladi."
+    "futureNote": "Kelajakdagi xususiyatlar: Foydalanuvchilarni boshqarish, obunalar, tranzaksiyalar va push bildirishnomalar backend API tayyor bo'lganda qo'shiladi.",
+    "loadingStats": "Statistika yuklanmoqda...",
+    "manageMovies": "Kinolar, seriallar va TV kanallarni boshqarish",
+    "manageReelsShort": "Qisqa videolarni yaratish va boshqarish",
+    "controlRoles": "Rollar va kirish huquqlarini boshqarish",
+    "manageAdminAccounts": "Admin hisoblarini boshqarish",
+    "organizeCategories": "Kontent kategoriyalarini tashkil qilish"
   },
   "movies": {
     "title": "Kinolar",
@@ -72,7 +100,8 @@
     "rating": "Reyting",
     "duration": "Davomiyligi",
     "noPoster": "Poster yo'q",
-    "readOnlyInfo": "Admin CRUD endpoints hozircha API da mavjud emas. Bu ommaviy endpoints orqali faqat o'qish rejimi."
+    "readOnlyInfo": "Admin CRUD endpoints hozircha API da mavjud emas. Bu ommaviy endpoints orqali faqat o'qish rejimi.",
+    "loadingMovies": "Kinolar yuklanmoqda..."
   },
   "series": {
     "title": "Seriallar",
@@ -90,7 +119,7 @@
     "loadingSeasons": "Mavsumlari yuklanmoqda...",
     "loadingEpisodes": "Epizodlar yuklanmoqda...",
     "loadingSeries": "Seriallar yuklanmoqda...",
-    "viewSeasons": "Mavsumlarga ko'rish",
+    "viewSeasons": "Mavsumlarni ko'rish",
     "viewEpisodes": "Epizodlarni ko'rish"
   },
   "reels": {
@@ -111,7 +140,11 @@
     "notLinked": "Bog'lanmagan",
     "noPreview": "Ko'rib chiqish yo'q",
     "untitledReel": "Nomsiz Reel",
-    "loadingReels": "Reels yuklanmoqda..."
+    "loadingReels": "Reels yuklanmoqda...",
+    "videoUrlRequired": "Video URL majburiy",
+    "deleteConfirm": "Ushbu reelni o'chirishni istaysizmi?",
+    "movies": "kino(lar)",
+    "episodes": "epizod(lar)"
   },
   "tvChannels": {
     "title": "TV Kanallar",
@@ -170,7 +203,9 @@
     "loadingAdmins": "Adminlar yuklanmoqda...",
     "activate": "Faollashtirish",
     "deactivate": "Faolsizlantirish",
-    "deleteConfirm": "Ushbu adminni o'chirishni istaysizmi?"
+    "deleteConfirm": "Ushbu adminni o'chirishni istaysizmi?",
+    "requiredFields": "Foydalanuvchi nomi, email va parol majburiy",
+    "requiredFieldsEdit": "Foydalanuvchi nomi va email majburiy"
   },
   "errors": {
     "forbidden": "Kirish taqiqlangan",
@@ -178,5 +213,17 @@
     "notFound": "Sahifa topilmadi",
     "notFoundText": "Siz qidirayotgan sahifa mavjud emas yoki ko'chirilgan.",
     "backToHome": "Bosh sahifaga"
+  },
+  "comingSoon": {
+    "subscriptionsDescription": "Obuna rejalari va foydalanuvchilar obunalarini boshqarish",
+    "subscriptionsText": "Obunalarni boshqarish funksiyalari, jumladan reja yaratish, foydalanuvchi obunalari va to'lov tarixi, backend API tayyor bo'lganda mavjud bo'ladi.",
+    "paymentsDescription": "To'lov tranzaksiyalari va moliyaviy hisobotlar",
+    "paymentsText": "To'lovlarni boshqarish funksiyalari, jumladan tranzaksiyalar tarixi, qaytarishlar va moliyaviy hisobotlar, backend API tayyor bo'lganda mavjud bo'ladi.",
+    "permissionsDescription": "Tizim huquqlari va kirish nazorati",
+    "permissionsText": "Huquqlarni boshqarish funksiyalari, jumladan yaratish, tahrirlash va rollarga huquqlarni tayinlash, backend API tayyor bo'lganda mavjud bo'ladi.",
+    "settingsDescription": "Tizim konfiguratsiyasi va sozlamalar",
+    "settingsText": "Tizim sozlamalari, jumladan umumiy konfiguratsiya, bildirishnoma sozlamalari va platforma parametrlari, backend API tayyor bo'lganda mavjud bo'ladi.",
+    "usersDescription": "Foydalanuvchilarni boshqarish: holat, obunalar, qurilmalar",
+    "usersText": "Foydalanuvchilarni boshqarish funksiyalari, jumladan foydalanuvchilar ro'yxati, obuna holati, qurilmalarni boshqarish va foydalanuvchi tarixi, backend API tayyor bo'lganda mavjud bo'ladi."
   }
 }

@@ -17,8 +17,7 @@ import UsersPage from '../pages/Users/UsersPage';
 import CategoriesPage from '../pages/Categories/CategoriesPage';
 import RolesPage from '../pages/Roles/RolesPage';
 import AdminsPage from '../pages/Admins/AdminsPage';
-
-
+import ComingSoonPage from '../components/ComingSoonPage';
 
 export const router = createBrowserRouter([
   {
@@ -95,7 +94,22 @@ export const router = createBrowserRouter([
           </PermissionGate>
         ),
       },
-
+      {
+        path: "/subscriptions",
+        element: <ComingSoonPage section="subscriptions" />,
+      },
+      {
+        path: "/payments",
+        element: <ComingSoonPage section="payments" />,
+      },
+      {
+        path: "/permissions",
+        element: <ComingSoonPage section="permissions" />,
+      },
+      {
+        path: "/settings",
+        element: <ComingSoonPage section="settings" />,
+      },
     ],
   },
   {
@@ -103,6 +117,3 @@ export const router = createBrowserRouter([
     element: <NotFoundPage />,
   },
 ]);
-
-
-

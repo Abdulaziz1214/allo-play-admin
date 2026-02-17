@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import Card from "../../components/ui/Card";
 import Table from "../../components/ui/Table";
 import Input from "../../components/ui/Input";
@@ -7,22 +8,20 @@ import { adminsApi } from "../../../services/admins/admins.api";
 import { rolesApi } from "../../../services/roles/roles.api";
 
 const AdminsPage = () => {
+  const { t } = useTranslation();
   const [admins, setAdmins] = useState([]);
   const [roles, setRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // Create/Edit form
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
-
   const [editingAdmin, setEditingAdmin] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  async function loadAdmins() {
+  const loadAdmins = useCallback(async () => {
     setIsLoading(true);
     setError("");
     try {
@@ -31,14 +30,14 @@ const AdminsPage = () => {
       const list = payload?.items || payload?.admins || payload || [];
       setAdmins(Array.isArray(list) ? list : []);
     } catch (e) {
-      setError(e?.response?.data?.message || e.message || "Failed to load admins");
+      setError(e?.response?.data?.message || e.message);
       setAdmins([]);
     } finally {
       setIsLoading(false);
     }
-  }
+  }, []);
 
-  async function loadRoles() {
+  const loadRoles = useCallback(async () => {
     try {
       const res = await rolesApi.list();
       const payload = res.data?.data ?? res.data;
@@ -47,30 +46,26 @@ const AdminsPage = () => {
     } catch (e) {
       console.error("Failed to load roles:", e);
     }
-  }
+  }, []);
 
   async function onCreate() {
-    const trimmedUsername = username.trim();
-    const trimmedEmail = email.trim();
-    if (!trimmedUsername || !trimmedEmail || !password) {
-      setError("Username, email, and password are required");
+    if (!username.trim() || !email.trim() || !password) {
+      setError(t('admins.requiredFields'));
       return;
     }
-
     setIsCreating(true);
     setError("");
-
     try {
       await adminsApi.create({
-        username: trimmedUsername,
-        email: trimmedEmail,
-        password: password,
+        username: username.trim(),
+        email: email.trim(),
+        password,
         role_ids: selectedRoles,
       });
       resetForm();
       await loadAdmins();
     } catch (e) {
-      setError(e?.response?.data?.message || e.message || "Failed to create admin");
+      setError(e?.response?.data?.message || e.message);
     } finally {
       setIsCreating(false);
     }
@@ -78,53 +73,36 @@ const AdminsPage = () => {
 
   async function onUpdate() {
     if (!editingAdmin) return;
-
-    const trimmedUsername = username.trim();
-    const trimmedEmail = email.trim();
-    if (!trimmedUsername || !trimmedEmail) {
-      setError("Username and email are required");
+    if (!username.trim() || !email.trim()) {
+      setError(t('admins.requiredFieldsEdit'));
       return;
     }
-
     setIsUpdating(true);
     setError("");
-
     try {
-      const updateData = {
-        username: trimmedUsername,
-        email: trimmedEmail,
-      };
-
-      // Only include password if it was changed
-      if (password) {
-        updateData.password = password;
-      }
-
+      const updateData = { username: username.trim(), email: email.trim() };
+      if (password) updateData.password = password;
       await adminsApi.update(editingAdmin.id, updateData);
-
-      // Update roles separately if changed
       if (selectedRoles.length > 0) {
         await adminsApi.updateRoles(editingAdmin.id, { role_ids: selectedRoles });
       }
-
       resetForm();
       await loadAdmins();
     } catch (e) {
-      setError(e?.response?.data?.message || e.message || "Failed to update admin");
+      setError(e?.response?.data?.message || e.message);
     } finally {
       setIsUpdating(false);
     }
   }
 
   async function onDelete(adminId) {
-    if (!confirm("Are you sure you want to delete this admin?")) return;
-
+    if (!confirm(t('admins.deleteConfirm'))) return;
     setError("");
     try {
       await adminsApi.delete(adminId);
       await loadAdmins();
     } catch (e) {
-      setError(e?.response?.data?.message || e.message || "Failed to delete admin");
+      setError(e?.response?.data?.message || e.message);
     }
   }
 
@@ -135,7 +113,7 @@ const AdminsPage = () => {
       await adminsApi.updateStatus(admin.id, { status: newStatus });
       await loadAdmins();
     } catch (e) {
-      setError(e?.response?.data?.message || e.message || "Failed to update status");
+      setError(e?.response?.data?.message || e.message);
     }
   }
 
@@ -158,29 +136,26 @@ const AdminsPage = () => {
   useEffect(() => {
     loadAdmins();
     loadRoles();
-  }, []);
+  }, [loadAdmins, loadRoles]);
 
   const columns = [
     {
       key: "username",
-      header: "Username",
+      header: t('admins.username'),
       cell: (row) => <span className="font-medium">{row.username}</span>,
     },
     {
       key: "email",
-      header: "Email",
+      header: t('admins.email'),
       cell: (row) => <span className="text-[var(--muted)]">{row.email}</span>,
     },
     {
       key: "roles",
-      header: "Roles",
+      header: t('admins.rolesLabel'),
       cell: (row) => (
         <div className="flex gap-1 flex-wrap">
           {row.roles?.map((role) => (
-            <span
-              key={role.id}
-              className="px-2 py-1 text-xs bg-[var(--surface-2)] rounded"
-            >
+            <span key={role.id} className="px-2 py-1 text-xs bg-[var(--surface-2)] rounded">
               {role.name}
             </span>
           ))}
@@ -189,44 +164,26 @@ const AdminsPage = () => {
     },
     {
       key: "is_active",
-      header: "Status",
+      header: t('common.status'),
       cell: (row) => (
-        <span
-          className={`px-2 py-1 text-xs rounded ${
-            row.is_active
-              ? "bg-green-500/20 text-green-500"
-              : "bg-red-500/20 text-red-500"
-          }`}
-        >
-          {row.is_active ? "Active" : "Inactive"}
+        <span className={`px-2 py-1 text-xs rounded ${row.is_active ? "bg-green-500/20 text-green-500" : "bg-red-500/20 text-red-500"}`}>
+          {row.is_active ? t('common.active') : t('common.inactive')}
         </span>
       ),
     },
     {
       key: "actions",
-      header: "Actions",
+      header: t('common.actions'),
       cell: (row) => (
         <div className="flex gap-2">
-          <Button
-            variant="ghost"
-            className="px-3 py-1 text-xs"
-            onClick={() => startEdit(row)}
-          >
-            Edit
+          <Button variant="ghost" className="px-3 py-1 text-xs" onClick={() => startEdit(row)}>
+            {t('common.edit')}
           </Button>
-          <Button
-            variant="ghost"
-            className="px-3 py-1 text-xs"
-            onClick={() => toggleStatus(row)}
-          >
-            {row.is_active ? "Deactivate" : "Activate"}
+          <Button variant="ghost" className="px-3 py-1 text-xs" onClick={() => toggleStatus(row)}>
+            {row.is_active ? t('admins.deactivate') : t('admins.activate')}
           </Button>
-          <Button
-            variant="ghost"
-            className="px-3 py-1 text-xs text-red-500 hover:bg-red-500/10"
-            onClick={() => onDelete(row.id)}
-          >
-            Delete
+          <Button variant="ghost" className="px-3 py-1 text-xs text-red-500 hover:bg-red-500/10" onClick={() => onDelete(row.id)}>
+            {t('common.delete')}
           </Button>
         </div>
       ),
@@ -237,36 +194,32 @@ const AdminsPage = () => {
     <div className="space-y-4">
       <Card>
         <div className="mb-6">
-          <h1 className="text-2xl font-semibold">Admins Management</h1>
-          <p className="text-sm text-[var(--muted)] mt-1">
-            Create and manage admin users with role assignments.
-          </p>
+          <h1 className="text-2xl font-semibold">{t('admins.title')}</h1>
+          <p className="text-sm text-[var(--muted)] mt-1">{t('admins.description')}</p>
         </div>
-
         <div className="space-y-3 max-w-2xl">
           <Input
-            label="Username"
-            placeholder="e.g. john_admin"
+            label={t('admins.username')}
+            placeholder={t('admins.usernamePlaceholder')}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <Input
-            label="Email"
+            label={t('admins.email')}
             type="email"
-            placeholder="e.g. john@example.com"
+            placeholder={t('admins.emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
-            label={editingAdmin ? "Password (leave empty to keep current)" : "Password"}
+            label={editingAdmin ? t('admins.passwordKeepCurrent') : t('admins.password')}
             type="password"
-            placeholder="Enter password"
+            placeholder={t('admins.passwordPlaceholder')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <div>
-            <label className="block text-sm font-medium mb-2">Roles</label>
+            <label className="block text-sm font-medium mb-2">{t('admins.rolesLabel')}</label>
             <div className="flex gap-2 flex-wrap">
               {roles.map((role) => (
                 <label
@@ -289,39 +242,26 @@ const AdminsPage = () => {
               ))}
             </div>
           </div>
-
           <div className="flex gap-3">
             {editingAdmin ? (
               <>
-                <Button
-                  variant="primary"
-                  onClick={onUpdate}
-                  disabled={isUpdating || !username.trim() || !email.trim()}
-                >
-                  {isUpdating ? "Updating..." : "Update Admin"}
+                <Button variant="primary" onClick={onUpdate} disabled={isUpdating || !username.trim() || !email.trim()}>
+                  {isUpdating ? t('admins.updating') : t('admins.updateAdmin')}
                 </Button>
-                <Button variant="secondary" onClick={resetForm}>
-                  Cancel
-                </Button>
+                <Button variant="secondary" onClick={resetForm}>{t('common.cancel')}</Button>
               </>
             ) : (
-              <Button
-                variant="primary"
-                onClick={onCreate}
-                disabled={isCreating || !username.trim() || !email.trim() || !password}
-              >
-                {isCreating ? "Creating..." : "Create Admin"}
+              <Button variant="primary" onClick={onCreate} disabled={isCreating || !username.trim() || !email.trim() || !password}>
+                {isCreating ? t('admins.creating') : t('admins.createAdmin')}
               </Button>
             )}
           </div>
         </div>
       </Card>
-
       <Card>
         {error && <div className="text-sm text-red-500 mb-3">{error}</div>}
-
         {isLoading ? (
-          <div className="text-sm text-[var(--muted)]">Loading admins...</div>
+          <div className="text-sm text-[var(--muted)]">{t('admins.loadingAdmins')}</div>
         ) : (
           <Table columns={columns} data={admins} rowKey={(row) => row.id} />
         )}

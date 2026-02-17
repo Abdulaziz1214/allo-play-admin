@@ -2,43 +2,49 @@
 :root,
 [data-theme="dark"] {
   /* Backgrounds */
-  --bg: #0b0b0f;          /* общий фон */
-  --surface: #12121a;     /* карточки/панели */
-  --surface-2: #181825;   /* чуть светлее для блоков внутри */
+  --bg: #0b0b0f;
+  --surface: #12121a;
+  --surface-2: #181825;
 
   /* Borders / lines */
   --border: rgba(255, 255, 255, 0.08);
 
   /* Text */
   --text: rgba(255, 255, 255, 0.92);
-  --muted: rgba(255, 255, 255, 0.60);
+  --muted: rgba(255, 255, 255, 0.55);
 
-  /* Primary (акцент как на макете) */
+  /* Primary (акцент) */
   --primary: #e50914;
   --primary-hover: #ff1a24;
 
   /* Focus ring */
   --ring: rgba(229, 9, 20, 0.35);
+
+  /* Sidebar active */
+  --nav-active-bg: rgba(229, 9, 20, 0.12);
 }
 
 /* Light theme */
 [data-theme="light"] {
   /* Backgrounds */
-  --bg: #f5f5f7;
+  --bg: #f0f2f5;
   --surface: #ffffff;
-  --surface-2: #f9f9fb;
+  --surface-2: #f7f8fa;
 
   /* Borders / lines */
-  --border: rgba(0, 0, 0, 0.10);
+  --border: rgba(0, 0, 0, 0.08);
 
   /* Text */
-  --text: rgba(0, 0, 0, 0.92);
-  --muted: rgba(0, 0, 0, 0.60);
+  --text: #1a1a2e;
+  --muted: #6b7280;
 
-  /* Primary (акцент как на макете) */
-  --primary: #e50914;
-  --primary-hover: #ff1a24;
+  /* Primary (акцент) */
+  --primary: #dc2626;
+  --primary-hover: #b91c1c;
 
   /* Focus ring */
-  --ring: rgba(229, 9, 20, 0.25);
+  --ring: rgba(220, 38, 38, 0.25);
+
+  /* Sidebar active */
+  --nav-active-bg: rgba(220, 38, 38, 0.08);
 }

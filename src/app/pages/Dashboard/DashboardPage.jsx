@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import Card from "../../components/ui/Card";
 import { moviesApi } from "../../../services/movies/movies.api";
 import { seriesApi } from "../../../services/series/series.api";
@@ -7,6 +9,7 @@ import { reelsApi } from "../../../services/reels/reels.api";
 import { adminsApi } from "../../../services/admins/admins.api";
 
 const DashboardPage = () => {
+  const { t } = useTranslation();
   const [stats, setStats] = useState({
     movies: 0,
     series: 0,
@@ -16,7 +19,7 @@ const DashboardPage = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  async function loadStats() {
+  const loadStats = useCallback(async () => {
     setIsLoading(true);
     try {
       const [moviesRes, seriesRes, channelsRes, reelsRes, adminsRes] =
@@ -55,39 +58,39 @@ const DashboardPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
     loadStats();
-  }, []);
+  }, [loadStats]);
 
   const statCards = [
     {
-      title: "Total Movies",
+      titleKey: "dashboard.totalMovies",
       value: stats.movies,
       icon: "🎬",
       color: "bg-blue-500/20 text-blue-500",
     },
     {
-      title: "Total Series",
+      titleKey: "dashboard.totalSeries",
       value: stats.series,
       icon: "📺",
       color: "bg-purple-500/20 text-purple-500",
     },
     {
-      title: "TV Channels",
+      titleKey: "dashboard.tvChannels",
       value: stats.channels,
       icon: "📡",
       color: "bg-green-500/20 text-green-500",
     },
     {
-      title: "Reels",
+      titleKey: "dashboard.reels",
       value: stats.reels,
       icon: "🎥",
       color: "bg-orange-500/20 text-orange-500",
     },
     {
-      title: "Admins",
+      titleKey: "dashboard.admins",
       value: stats.admins,
       icon: "👥",
       color: "bg-pink-500/20 text-pink-500",
@@ -97,15 +100,15 @@ const DashboardPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <h1 className="text-2xl font-semibold">{t('dashboard.title')}</h1>
         <p className="text-sm text-[var(--muted)] mt-1">
-          Overview of platform statistics and content.
+          {t('dashboard.description')}
         </p>
       </div>
 
       {isLoading ? (
         <Card>
-          <div className="text-sm text-[var(--muted)]">Loading statistics...</div>
+          <div className="text-sm text-[var(--muted)]">{t('dashboard.loadingStats')}</div>
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
@@ -113,12 +116,10 @@ const DashboardPage = () => {
             <Card key={index} className="p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-sm text-[var(--muted)] mb-1">{stat.title}</p>
+                  <p className="text-sm text-[var(--muted)] mb-1">{t(stat.titleKey)}</p>
                   <p className="text-3xl font-bold">{stat.value}</p>
                 </div>
-                <div
-                  className={`text-3xl p-3 rounded-xl ${stat.color}`}
-                >
+                <div className={`text-3xl p-3 rounded-xl ${stat.color}`}>
                   {stat.icon}
                 </div>
               </div>
@@ -129,66 +130,61 @@ const DashboardPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card>
-          <h2 className="text-lg font-semibold mb-4">Welcome to Allo Play Admin</h2>
+          <h2 className="text-lg font-semibold mb-4">{t('dashboard.welcome')}</h2>
           <p className="text-sm text-[var(--muted)] mb-3">
-            This is your admin dashboard for managing the Allo Play OTT platform.
+            {t('dashboard.welcomeText')}
           </p>
           <ul className="space-y-2 text-sm text-[var(--muted)]">
-            <li>✅ Manage movies, series, and TV channels</li>
-            <li>✅ Create and manage reels (short videos)</li>
-            <li>✅ Control user roles and permissions</li>
-            <li>✅ Manage admin accounts</li>
-            <li>✅ Organize content categories</li>
+            <li>&#10003; {t('dashboard.manageMovies')}</li>
+            <li>&#10003; {t('dashboard.manageReelsShort')}</li>
+            <li>&#10003; {t('dashboard.controlRoles')}</li>
+            <li>&#10003; {t('dashboard.manageAdminAccounts')}</li>
+            <li>&#10003; {t('dashboard.organizeCategories')}</li>
           </ul>
         </Card>
 
         <Card>
-          <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+          <h2 className="text-lg font-semibold mb-4">{t('dashboard.quickActions')}</h2>
           <div className="space-y-2">
-            <a
-              href="/movies"
+            <Link
+              to="/movies"
               className="block p-3 bg-[var(--surface-2)] hover:bg-[var(--surface)] rounded-lg transition text-sm"
             >
-              📽️ Browse Movies
-            </a>
-            <a
-              href="/series"
+              🎬 {t('dashboard.browseMovies')}
+            </Link>
+            <Link
+              to="/series"
               className="block p-3 bg-[var(--surface-2)] hover:bg-[var(--surface)] rounded-lg transition text-sm"
             >
-              📺 Browse Series
-            </a>
-            <a
-              href="/reels"
+              📺 {t('dashboard.browseSeries')}
+            </Link>
+            <Link
+              to="/reels"
               className="block p-3 bg-[var(--surface-2)] hover:bg-[var(--surface)] rounded-lg transition text-sm"
             >
-              🎥 Manage Reels
-            </a>
-            <a
-              href="/admins"
+              🎥 {t('dashboard.manageReels')}
+            </Link>
+            <Link
+              to="/admins"
               className="block p-3 bg-[var(--surface-2)] hover:bg-[var(--surface)] rounded-lg transition text-sm"
             >
-              👥 Manage Admins
-            </a>
+              👥 {t('dashboard.manageAdmins')}
+            </Link>
           </div>
         </Card>
       </div>
 
       <Card>
-        <h2 className="text-lg font-semibold mb-3">📌 Important Notes</h2>
+        <h2 className="text-lg font-semibold mb-3">{t('dashboard.importantNotes')}</h2>
         <div className="space-y-2 text-sm text-[var(--muted)]">
           <p>
-            ⚠️ <strong>Movies, Series, and TV Channels:</strong> Admin CRUD endpoints
-            are not yet available in the API. These pages show read-only data from
-            public endpoints.
+            <strong>{t('dashboard.readOnlyNote')}</strong>
           </p>
           <p>
-            ✅ <strong>Full CRUD Available:</strong> Reels, Roles, Admins, and
-            Categories have complete admin management functionality.
+            <strong>{t('dashboard.fullCrudNote')}</strong>
           </p>
           <p>
-            🔧 <strong>Future Features:</strong> User management, subscriptions,
-            transactions, and push notifications will be added when backend APIs are
-            ready.
+            <strong>{t('dashboard.futureNote')}</strong>
           </p>
         </div>
       </Card>
